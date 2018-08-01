@@ -28,6 +28,8 @@ function __check_common_already_loaded() {
     esac
 }
 
+__check_common_already_loaded
+
 LOCAL_SOURCE_DIR=${APP_HOME}/source
 
 ## ==============================================================================
