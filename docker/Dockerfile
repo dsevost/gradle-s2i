@@ -10,7 +10,7 @@ MAINTAINER dmitry sevostyanov <dsevosty@redhat.com>
 
 ENV \
     GRADLE_VERSION=4.9 \
-    GRADLE_DIR=/opt/gradle
+    GRADLE_DIR=/opt/gradle \
     GRADLE_HOME=/opt/gradle/gradle
 
 RUN \
