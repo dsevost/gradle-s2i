@@ -45,9 +45,7 @@ RUN \
 
 ENV \
     OLD_S2I_PATH=$OLD_S2I_PATH \
-    APP_HOME=/opt/app-root/src \
     BUILDER_VERSION=1.0 \
-    DEPLOY_DIR=/opt/openshift \
     S2I_PATH=/usr/local/s2i-gradle
 
 LABEL \
@@ -55,18 +53,6 @@ LABEL \
     io.k8s.display-name="Gradle builder ${BUILDER_VERSION}" \
     io.openshift.tags="builder,maven-3,gradle-${GRADLE_VERSION},springboot" \
     io.openshift.s2i.scripts-url=image://$S2I_PATH
-
-#RUN \
-#    mkdir \
-#	-p $DEPLOY_DIR \
-#	&& \
-#    chown -R 1001:0 $DEPLOY_DIR \
-#	&& \
-#    mkdir \
-#	-p $APP_HOME \
-#	&& \
-#    chmod \
-#	-R g+w $APP_HOME
 
 USER 185
 
