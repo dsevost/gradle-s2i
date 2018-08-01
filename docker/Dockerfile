@@ -8,29 +8,32 @@ FROM redhat-openjdk-18/openjdk18-openshift
 #
 MAINTAINER dmitry sevostyanov <dsevosty@redhat.com>
 
-ENV \
-    GRADLE_VERSION=4.9 \
-    GRADLE_DIR=/opt/gradle \
-    GRADLE_HOME=/opt/gradle/gradle
+ARG GRADLE_VERSION
+
+USER 0
 
 RUN \
+    [ -z "$GRADLE_VERSION" ] && { echo "GRADLE_VERSION must be defined" ; exit 1 ; } ; \
+    GRADLE_HOME=/opt/gradle/${GRADLE_VERSION} ; \
     mkdir \
-	-p ${GRADLE_DIR} \
+	-p ${GRADLE_HOME} \
 	&& \
     curl \
 	-sSL \
-	    https://gradle.org/next-steps/?version=${GRADLE_VERSION}&format=bin \
+	    "https://downloads.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip" \
 	-o \
 	    /tmp/gradle-bin.zip \
 	&& \
     unzip \
 	/tmp/gradle-bin.zip \
 	-d \
-	    $GRADLE_DIR \
+	    $GRADLE_HOME \
 	&& \
     mv \
-	$GRADLE_DIR/gradle-${GRADLE_VERSION} \
+	$GRADLE_HOME/gradle-${GRADLE_VERSION}/* \
 	$GRADLE_HOME \
+	&& \
+    rm -rf $GRADLE_HOME/gradle-${GRADLE_VERSION} \
 	&& \
     ln \
 	-s \
@@ -64,12 +67,12 @@ LABEL \
 RUN \
     mkdir \
 	-p $DEPLOY_DIR \
-    && \
+	&& \
     chown -R 1001:0 $DEPLOY_DIR \
-    && \
+	&& \
     mkdir \
 	-p $APP_HOME \
-    && \
+	&& \
     chmod \
 	-R g+w $APP_HOME
 
