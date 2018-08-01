@@ -7,7 +7,7 @@
 # https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 
-[ -z "$DEBUG" ] || set -x
+[ "$SCRIPT_DEBUG" = "true" ] || { set -x ; env ; }
 
 #
 # see $S2I_PATH/usage for more details
@@ -19,7 +19,7 @@ if [ "$1" = "-h" ]; then
   exec $S2I_PATH/usage
 fi
 
-__check_common_already_loaded || source $S2I_PATH/common.sh
+__check_common_already_loaded 2> /dev/null || source $S2I_PATH/common.sh
 
 restore_artifacts
 

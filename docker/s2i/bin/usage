@@ -12,7 +12,7 @@ You can then run the resulting image via:
 docker run <application image>
 
 ====================================================================
-There are functions in $S2I_PATH/common.sh and $OLD_S2I_PATH:
+There are functions in $S2I_PATH/common.sh and $OLD_S2I_PATH/common.sh:
 ---
 $(awk '/^function [^_]/ { print $2; }' $S2I_PATH/common.sh $OLD_S2I_PATH/common.sh)
 ---

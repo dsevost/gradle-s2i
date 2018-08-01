@@ -9,10 +9,12 @@ FROM redhat-openjdk-18/openjdk18-openshift
 MAINTAINER dmitry sevostyanov <dsevosty@redhat.com>
 
 ARG GRADLE_VERSION
+ARG OLD_S2I_PATH
 
 USER 0
 
 RUN \
+    set -x ; \
     [ -z "$GRADLE_VERSION" ] && { echo "GRADLE_VERSION must be defined" ; exit 1 ; } ; \
     GRADLE_HOME=/opt/gradle/${GRADLE_VERSION} ; \
     mkdir \
@@ -42,7 +44,7 @@ RUN \
     rm -f /tmp/gradle-${GRADLE_VERSION}-bin.zip
 
 ENV \
-    OLD_S2I_PATH=$S2I_PATH \
+    OLD_S2I_PATH=$OLD_S2I_PATH \
     APP_HOME=/opt/app-root/src \
     BUILDER_VERSION=1.0 \
     DEPLOY_DIR=/opt/openshift \
