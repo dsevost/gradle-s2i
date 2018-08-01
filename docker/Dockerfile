@@ -66,7 +66,7 @@ LABEL \
 #    chmod \
 #	-R g+w $APP_HOME
 
-USER jboss
+USER 185
 
 CMD [ "/bin/bash", "-c", "$S2I_PATH/usage" ]
 
