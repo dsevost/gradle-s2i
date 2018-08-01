@@ -3,6 +3,7 @@
 __COMMON_ALREADY_LOADED=${__COMMON_ALREADY_LOADED:-1}
 
 function __check_common_already_loaded() {
+    local old_s2i_setup=$OLD_S2I_PATH/s2i-setup
     local old_s2i_common=$OLD_S2I_PATH/common.sh
 
     case ${__COMMON_ALREADY_LOADED} in
@@ -11,6 +12,10 @@ function __check_common_already_loaded() {
 	return ${__COMMON_ALREADY_LOADED}
 	;;
     1)
+	if [ -r "$old_s2i_setup" ] ; then
+	    echo "Loading ${old_s2i_setup}..."
+	    source $old_s2i_setup
+	fi
 	if [ -r "$old_s2i_common" ] ; then
 	    echo "Loading ${old_s2i_common}..."
 	    source $old_s2i_common
