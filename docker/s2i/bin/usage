@@ -1,0 +1,33 @@
+#!/bin/bash -e
+#
+cat << EOF
+This is the gradle-s2i S2I image:
+To use it, install S2I: https://github.com/openshift/source-to-image
+
+Sample invocation:
+
+sti build git://<source code> gradle-s2i <application image>
+
+You can then run the resulting image via:
+docker run <application image>
+
+====================================================================
+There are functions in $S2I_PATH/common.sh and $OLD_S2I_PATH:
+---
+$(awk '/^function [^_]/ { print $2; }' $S2I_PATH/common.sh $OLD_S2I_PATH/common.sh)
+---
+To overload any use sript like:
+cat << EOS > .s2i/bin/assemble
+#!/bin/bash
+
+source $S2I_PATH/common.sh
+
+function <function_name_to_override>() {
+  echo "\$FUNCNAME: overloaded"
+}
+
+source $S2I_PATH/assemble
+
+EOS
+
+EOF

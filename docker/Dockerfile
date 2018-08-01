@@ -41,18 +41,8 @@ RUN \
 	&& \
     rm -f /tmp/gradle-${GRADLE_VERSION}-bin.zip
 
-#
-# build a cache to run java-tools
-#
-#RUN \
-#    gradle || true
-#
-
-#
-# springboot-s2i
-
-#    APP_HOME=/opt/app-root/src \
 ENV \
+    OLD_S2I_PATH=$S2I_PATH \
     APP_HOME=/opt/app-root/src \
     BUILDER_VERSION=1.0 \
     DEPLOY_DIR=/opt/openshift \
@@ -64,23 +54,20 @@ LABEL \
     io.openshift.tags="builder,maven-3,gradle-${GRADLE_VERSION},springboot" \
     io.openshift.s2i.scripts-url=image://$S2I_PATH
 
-RUN \
-    mkdir \
-	-p $DEPLOY_DIR \
-	&& \
-    chown -R 1001:0 $DEPLOY_DIR \
-	&& \
-    mkdir \
-	-p $APP_HOME \
-	&& \
-    chmod \
-	-R g+w $APP_HOME
+#RUN \
+#    mkdir \
+#	-p $DEPLOY_DIR \
+#	&& \
+#    chown -R 1001:0 $DEPLOY_DIR \
+#	&& \
+#    mkdir \
+#	-p $APP_HOME \
+#	&& \
+#    chmod \
+#	-R g+w $APP_HOME
 
-USER 1001
-
-# Set the default port for applications built using this image
-#EXPOSE 8080
+USER jboss
 
 CMD [ "/bin/bash", "-c", "$S2I_PATH/usage" ]
 
-#COPY s2i/bin ${S2I_PATH}/
+COPY s2i/bin/* ${S2I_PATH}/

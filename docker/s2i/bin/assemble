@@ -1,0 +1,43 @@
+#!/bin/bash -e
+#
+# S2I assemble script for the 'springboot-s2i' image.
+# The 'assemble' script builds your application source ready to run.
+#
+# For more information refer to the documentation:
+# https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
+#
+
+[ -z "$DEBUG" ] || set -x
+
+#
+# see $S2I_PATH/usage for more details
+#
+
+if [ "$1" = "-h" ]; then
+  # If the 'springboot-s2i' assemble script is executed with '-h' flag,
+  # print the usage.
+  exec $S2I_PATH/usage
+fi
+
+__check_common_already_loaded || source $S2I_PATH/common.sh
+
+restore_artifacts
+
+copy_sources_from /tmp/src
+
+if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
+  build_maven_project
+elif [ -f "$LOCAL_SOURCE_DIR/build.gradle" ]; then
+  build_gradle_project
+fi
+
+# Copy (probably binary) artifacts from the deployments/
+# directory to the $DEPLOY_DIR directory for later deployment
+copy_artifacts "${S2I_SOURCE_DIR}/deployments"
+
+# if [ -d $LOCAL_SOURCE_DIR/configuration ]; then
+#   echo "Copying config files from project..."
+#   cp -v $LOCAL_SOURCE_DIR/configuration/* $ARTIFACTS_HOME
+# fi
+
+#check_build
