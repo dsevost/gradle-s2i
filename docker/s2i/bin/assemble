@@ -7,35 +7,30 @@
 # https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 
-[ "$SCRIPT_DEBUG" = "true" ] || { set -x ; env ; }
-
-#
-# see $S2I_PATH/usage for more details
-#
+[ "$SCRIPT_DEBUG" = "true" ] || { set -x ; printenv ; }
 
 if [ "$1" = "-h" ]; then
-  exec $S2I_PATH/usage
+    exec $S2I_PATH/usage
 fi
 
 __check_common_already_loaded 2> /dev/null || source $S2I_PATH/common.sh
 
-#restore_artifacts
+case $BUILDER in
+    [Gg][Rr][Aa][Dd][Ll][Ee])
+	restore_artifacts
+	build_gradle_project
+	;;
+    [Mm][Aa][Vv][Ee][Nn])
+	build_maven_project
+	;;
+    *)
+	if [ -f "$S2I_SOURCE_DIR/build.gradle" ]; then
+	    restore_artifacts
+	    build_gradle_project
+	elif [ -f "$S2I_SOURCE_DIR/pom.xml" ]; then
+	    build_maven_project
+	fi
+	;;
+esac
 
-#copy_sources_from /tmp/src
-
-if [ -f "$S2I_SOURCE_DIR/build.gradle" ]; then
-  build_gradle_project
-elif [ -f "$S2I_SOURCE_DIR/pom.xml" ]; then
-  build_maven_project
-fi
-
-# Copy (probably binary) artifacts from the deployments/
-# directory to the $DEPLOY_DIR directory for later deployment
-#copy_artifacts "${S2I_SOURCE_DIR}/deployments"
-
-# if [ -d $LOCAL_SOURCE_DIR/configuration ]; then
-#   echo "Copying config files from project..."
-#   cp -v $LOCAL_SOURCE_DIR/configuration/* $ARTIFACTS_HOME
-# fi
-
-#check_build
+check_build

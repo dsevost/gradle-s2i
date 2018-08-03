@@ -88,27 +88,17 @@ function check_build() {
       die "Application could not be properly built"
     fi
   else
-    echo "There are $jars_count files found at ${DEPLOY_DIR}, but only one expected. If you are building a multi-jars project, run $S2I_PATH/usage for more details"
+    echo "There are $jars_count files found at ${DEPLOY_DIR}, but only one expected. If you are building a multi-jars project, use JAVA_APP_JAR variable"
     die "Aborting..."
   fi
 }
 
-#function copy_artifacts() {
-#  if [ -d $LOCAL_SOURCE_DIR/$1 ]; then
-#    echo "Copying all JAR artifacts from $LOCAL_SOURCE_DIR/$1 directory into $DEPLOY_DIR for later deployment..."
-#    mkdir -p $DEPLOY_DIR
-#    cp -v $LOCAL_SOURCE_DIR/$1/*.jar $DEPLOY_DIR 2> /dev/null
-#  fi
-#}
+function copy_artifacts() {
+    local dir=$1
+    local dest=$2
 
-# Copy the source for compilation
-#function copy_sources_from() {
-#  local src=${1:-/tmp/src}
-#
-#  mkdir -p $LOCAL_SOURCE_DIR
-#  tar -C $src -c . | tar -C $LOCAL_SOURCE_DIR -x
-#  cp -ad $src/* $LOCAL_SOURCE_DIR
-#}
+    tar -C $dir -c . | tar -C $dest -x
+}
 
 function die() {
   echo $*
@@ -118,10 +108,11 @@ function die() {
 # Restore artifacts from the previous build (if they exist).
 #
 function restore_artifacts() {
-  if [ "$(ls ${S2I_ARTIFACTS_DIR}/ 2>/dev/null)" ]; then
-    echo "---> Restoring build artifacts"
-    mv ${S2I_ARTIFACTS_DIR}/* .
-  fi
+    local inremental=${S2I_DESTINATION}/artifacts
+
+    if [ -d $incremental ] ; then
+	copy_artifacts $incremental ${HOME}
+    fi
 }
 
 export __COMMON_ALREADY_LOADED=0
