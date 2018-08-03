@@ -82,7 +82,7 @@ function check_build() {
   [ "$?" = "0" ] || die
   if [ $jars_count -eq 1 ]; then
     mv $DEPLOYMENTS_DIR/*.jar $DEPLOYMENTS_DIR/app.jar
-    if [ -f /opt/openshift/app.jar ] ; then
+    if [ -f $DEPLOYMENTS_DIR/app.jar ] ; then
       echo "Application jar file is located in $DEPLOYMENTS_DIR/app.jar"
     else
       die "Application could not be properly built"
