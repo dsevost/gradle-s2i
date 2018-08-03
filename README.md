@@ -16,8 +16,16 @@ $ oc new-build \
 
 $ oc new-app \
     --name hello-gradle \
-    --build-arg SCRIPT_DEBUG=true \
+    --build-env SCRIPT_DEBUG=true \
     --context-dir complete \
-    -i gradle-s2i https://github.com/spring-guides/gs-spring-boot
+    -i gradle-s2i \
+    https://github.com/spring-guides/gs-spring-boot
+
+$ oc new-app \
+    --name hello-maven \
+    --build-env BUILDER=maven \
+    --context-dir complete \
+    -i gradle-s2i \
+    https://github.com/spring-guides/gs-spring-boot
 
 ```
