@@ -62,7 +62,7 @@ function build_gradle_project() {
     copy_artifacts build/libs ${DEPLOYMENTS_DIR}
 
     # clean up after maven
-#    gradle clean
+    gradle clean
     popd &> /dev/null
   fi
 }
@@ -78,17 +78,17 @@ function build_maven_project() {
 
 function check_build() {
   # As SpringBoot you should only have 1 fat jar
-  local jars_count=$(ls -1 $DEPLOY_DIR/*.jar | wc -l)
+  local jars_count=$(ls -1 $DEPLOYMENTS_DIR/*.jar | wc -l)
   [ "$?" = "0" ] || die
   if [ $jars_count -eq 1 ]; then
-    mv $DEPLOY_DIR/*.jar $DEPLOY_DIR/app.jar
+    mv $DEPLOYMENTS_DIR/*.jar $DEPLOYMENTS_DIR/app.jar
     if [ -f /opt/openshift/app.jar ] ; then
-      echo "Application jar file is located in $DEPLOY_DIR/app.jar"
+      echo "Application jar file is located in $DEPLOYMENTS_DIR/app.jar"
     else
       die "Application could not be properly built"
     fi
   else
-    echo "There are $jars_count files found at ${DEPLOY_DIR}, but only one expected. If you are building a multi-jars project, use JAVA_APP_JAR variable"
+    echo "There are $jars_count files found at ${DEPLOYMENTS_DIR}, but only one expected. If you are building a multi-jars project, use JAVA_APP_JAR variable"
     die "Aborting..."
   fi
 }
