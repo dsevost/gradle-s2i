@@ -7,7 +7,7 @@
 # https://github.com/openshift/source-to-image/blob/master/docs/builder_image.md
 #
 
-[ "$SCRIPT_DEBUG" = "true" ] || { set -x ; printenv ; }
+[ "$SCRIPT_DEBUG" = "true" ] && { set -x ; printenv ; }
 
 if [ "$1" = "-h" ]; then
     exec $S2I_PATH/usage
