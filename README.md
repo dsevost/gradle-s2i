@@ -29,3 +29,12 @@ $ oc new-app \
     https://github.com/spring-guides/gs-spring-boot
 
 ```
+
+## Build from template
+
+```
+$ oc new-project hello-gradle
+$ oc create -f openshift/springboot-gradle-s2i-template-1.yaml
+$ oc new-app springboot-gradle-s2i \
+    -p IMAGE_STREAM_NAMESPACE hello-gradle
+```
