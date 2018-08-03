@@ -14,8 +14,6 @@
 #
 
 if [ "$1" = "-h" ]; then
-  # If the 'springboot-s2i' assemble script is executed with '-h' flag,
-  # print the usage.
   exec $S2I_PATH/usage
 fi
 
