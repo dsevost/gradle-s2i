@@ -72,7 +72,7 @@ function build_gradle_project() {
 
 # If a pom.xml is present, this is a normal build scenario - call default 'assemble' script
 function build_maven_project() {
-  if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ] ; then
+  if [ -f "$S2I_SOURCE_DIR/pom.xml" ] ; then
     echo "Building with maven. $LOCAL_SOURCE_DIR/pom.xml found."
     exec $OLD_S2I_PATH/assemble
   fi
