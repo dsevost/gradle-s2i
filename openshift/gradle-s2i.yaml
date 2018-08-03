@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  name: gradle-s2i
+  namespace: openshift
+spec:
+  tags:
+  - annotations:
+      description: Gradle S2I Builder image
+      iconClass: icon-spring
+      supports: springboot,java:8,maven:3,gradle:4.9
+      tags: builder,springboot,java,maven,gradle
+      version: '1.0'
+    from:
+      kind: DockerImage
+      name: docker-registry.default.svc:5000/openshift/gradle-s2i:1.0
+    name: '1.0'
+  - annotations:
+      description: Gradle S2I Builder image
+      iconClass: icon-spring
+      tags: builder,springboot,java,maven,gradle
+    from:
+      kind: ImageStreamTag
+      name: '1.0'
+    name: latest
