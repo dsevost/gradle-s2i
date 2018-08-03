@@ -120,9 +120,9 @@ function die() {
 # Restore artifacts from the previous build (if they exist).
 #
 function restore_artifacts() {
-  if [ "$(ls /tmp/artifacts/ 2>/dev/null)" ]; then
+  if [ "$(ls ${S2I_ARTIFACTS_DIR}/ 2>/dev/null)" ]; then
     echo "---> Restoring build artifacts"
-    mv /tmp/artifacts/* .
+    mv ${S2I_ARTIFACTS_DIR}/* .
   fi
 }
 

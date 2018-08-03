@@ -21,19 +21,19 @@ fi
 
 __check_common_already_loaded 2> /dev/null || source $S2I_PATH/common.sh
 
-restore_artifacts
+#restore_artifacts
 
 #copy_sources_from /tmp/src
 
-if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
+if [ -f "$S2I_SOURCE_DIR/pom.xml" ]; then
   build_maven_project
-elif [ -f "$LOCAL_SOURCE_DIR/build.gradle" ]; then
+elif [ -f "$S2I_SOURCE_DIR/build.gradle" ]; then
   build_gradle_project
 fi
 
 # Copy (probably binary) artifacts from the deployments/
 # directory to the $DEPLOY_DIR directory for later deployment
-copy_artifacts "${S2I_SOURCE_DIR}/deployments"
+#copy_artifacts "${S2I_SOURCE_DIR}/deployments"
 
 # if [ -d $LOCAL_SOURCE_DIR/configuration ]; then
 #   echo "Copying config files from project..."
