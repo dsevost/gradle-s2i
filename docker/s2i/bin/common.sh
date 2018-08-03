@@ -30,16 +30,14 @@ function __check_common_already_loaded() {
 
 __check_common_already_loaded
 
-LOCAL_SOURCE_DIR=${APP_HOME}/source
-
 ## ==============================================================================
 
 # If a gradle.build is present, this is a Gradle build scenario
 function build_gradle_project() {
-  if [ -f "$LOCAL_SOURCE_DIR/build.gradle" ]; then
-    echo "Building with gradle. $LOCAL_SOURCE_DIR/build.gradle found."
+  if [ -f "$S2I_SOURCE_DIR/build.gradle" ]; then
+    echo "Building with gradle. $S2I_SOURCE_DIR/build.gradle found."
 
-    pushd $LOCAL_SOURCE_DIR &> /dev/null
+    pushd $S2I_SOURCE_DIR &> /dev/null
 
     if [ -z "$BUILDER_ARGS" ]; then
       export BUILDER_ARGS="build -x test"
@@ -73,7 +71,7 @@ function build_gradle_project() {
 # If a pom.xml is present, this is a normal build scenario - call default 'assemble' script
 function build_maven_project() {
   if [ -f "$S2I_SOURCE_DIR/pom.xml" ] ; then
-    echo "Building with maven. $LOCAL_SOURCE_DIR/pom.xml found."
+    echo "Building with maven. $S2I_SOURCE_DIR/pom.xml found."
     exec $OLD_S2I_PATH/assemble
   fi
 }
@@ -104,13 +102,13 @@ function check_build() {
 #}
 
 # Copy the source for compilation
-function copy_sources_from() {
-  local src=${1:-/tmp/src}
-
-  mkdir -p $LOCAL_SOURCE_DIR
-  tar -C $src -c . | tar -C $LOCAL_SOURCE_DIR -x
+#function copy_sources_from() {
+#  local src=${1:-/tmp/src}
+#
+#  mkdir -p $LOCAL_SOURCE_DIR
+#  tar -C $src -c . | tar -C $LOCAL_SOURCE_DIR -x
 #  cp -ad $src/* $LOCAL_SOURCE_DIR
-}
+#}
 
 function die() {
   echo $*

@@ -25,10 +25,10 @@ __check_common_already_loaded 2> /dev/null || source $S2I_PATH/common.sh
 
 #copy_sources_from /tmp/src
 
-if [ -f "$S2I_SOURCE_DIR/pom.xml" ]; then
-  build_maven_project
-elif [ -f "$S2I_SOURCE_DIR/build.gradle" ]; then
+if [ -f "$S2I_SOURCE_DIR/build.gradle" ]; then
   build_gradle_project
+elif [ -f "$S2I_SOURCE_DIR/pom.xml" ]; then
+  build_maven_project
 fi
 
 # Copy (probably binary) artifacts from the deployments/
