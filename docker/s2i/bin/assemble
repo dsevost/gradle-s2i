@@ -23,7 +23,7 @@ __check_common_already_loaded 2> /dev/null || source $S2I_PATH/common.sh
 
 restore_artifacts
 
-copy_sources_from /tmp/src
+#copy_sources_from /tmp/src
 
 if [ -f "$LOCAL_SOURCE_DIR/pom.xml" ]; then
   build_maven_project

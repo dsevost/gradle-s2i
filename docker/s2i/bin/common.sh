@@ -95,13 +95,13 @@ function check_build() {
   fi
 }
 
-function copy_artifacts() {
-  if [ -d $LOCAL_SOURCE_DIR/$1 ]; then
-    echo "Copying all JAR artifacts from $LOCAL_SOURCE_DIR/$1 directory into $DEPLOY_DIR for later deployment..."
-    mkdir -p $DEPLOY_DIR
-    cp -v $LOCAL_SOURCE_DIR/$1/*.jar $DEPLOY_DIR 2> /dev/null
-  fi
-}
+#function copy_artifacts() {
+#  if [ -d $LOCAL_SOURCE_DIR/$1 ]; then
+#    echo "Copying all JAR artifacts from $LOCAL_SOURCE_DIR/$1 directory into $DEPLOY_DIR for later deployment..."
+#    mkdir -p $DEPLOY_DIR
+#    cp -v $LOCAL_SOURCE_DIR/$1/*.jar $DEPLOY_DIR 2> /dev/null
+#  fi
+#}
 
 # Copy the source for compilation
 function copy_sources_from() {
