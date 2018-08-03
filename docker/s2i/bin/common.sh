@@ -59,10 +59,10 @@ function build_gradle_project() {
 
     # Copy built artifacts (if any!) from the target/ directory
     # to the $DEPLOY_DIR directory for later deployment
-#    copy_artifacts build/libs
+    copy_artifacts build/libs ${DEPLOYMENTS_DIR}
 
     # clean up after maven
-    gradle clean
+#    gradle clean
     popd &> /dev/null
   fi
 }
