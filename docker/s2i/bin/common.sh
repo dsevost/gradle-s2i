@@ -108,7 +108,7 @@ function die() {
 # Restore artifacts from the previous build (if they exist).
 #
 function restore_artifacts() {
-    local inremental=${S2I_DESTINATION}/artifacts
+    local incremental=${S2I_DESTINATION}/artifacts
 
     if [ -d $incremental ] ; then
 	copy_artifacts $incremental ${HOME}
