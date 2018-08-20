@@ -1,4 +1,4 @@
-# Gradle S2I OpehShift builder
+# Gradle S2I OpenShift builder
 
 ## Build from scratch
 
